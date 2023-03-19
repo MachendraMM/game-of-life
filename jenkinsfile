@@ -1,0 +1,26 @@
+pipeline{
+agent{
+label 'jdk-8'
+}
+     stages{
+              stage('sourcecode')
+                {
+                        steps{
+                                git branch: 'master', https://github.com/MachendraMM/game-of-life.git
+                        }
+}
+                stage('Build')
+                 {
+                     steps{
+                          sh 'mvn clean package'
+                           }
+                }
+stage('archieving and testresults'){
+        steps{
+                 junit'**/surefire-reports/*.xml'
+                archiveartifacts: '**/*.war', followSymlinks:false
+                }
+        }
+    }
+}
+
